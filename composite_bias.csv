@@ -1,0 +1,17 @@
+condition,composite,partyid,N,M,SD
+0,composite_bias_preD,1,22,74.56,12.3
+0,composite_bias_postD,1,22,74.53,10.76
+0,composite_bias_preR,1,22,31.4,10.33
+0,composite_bias_postR,1,22,35.92,10.83
+0,composite_bias_preD,2,19,43.27,8.28
+0,composite_bias_postD,2,19,46.49,8.64
+0,composite_bias_preR,2,19,63.15,9.64
+0,composite_bias_postR,2,19,62.8,9.41
+1,composite_bias_preD,1,21,73.62,10.42
+1,composite_bias_postD,1,21,77.74,8.01
+1,composite_bias_preR,1,21,33.05,13.61
+1,composite_bias_postR,1,21,31.04,14.75
+1,composite_bias_preD,2,17,44.91,8.06
+1,composite_bias_postD,2,17,45.74,8.93
+1,composite_bias_preR,2,17,63.15,11.39
+1,composite_bias_postR,2,17,62.87,12.33

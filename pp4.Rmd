@@ -1,0 +1,122 @@
+---
+title: "Portfolio Piece 4"
+author: "Rebecca Smith"
+date: "4/21/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+My final few portfolio pieces are going to be explorations of my own thesis data. My thesis aimed to test whether interparty contact - in the form of deliberation - could reduce partisan bias. The partisan bias assessment had three subscales: prejudice, discrimination, or stereotyping. 
+Participants were Democrats and Republicans and were assigned to either the deliberation (i.e., experimental) or control condition. In both conditions, participants completed the preliminary partisan bias assessment, engaged in an activity, and then revisited the partisan bias assessment. 
+
+The activity in the deliberation condition required equal representation of Democrats and Republicans. Participants read the RNC and DNC party platforms on four social issues: gun control, climate change, immigration, and higher education. After reading the issue stances, they engaged in a deliberation with the other participants to come to an agreement on values that they believed were supported by the issue stances.
+
+Control participants completed a similar activity but did so independently and were only exposed to information from their affiliated party.
+
+For this portfolio piece, my primary goal is to create one dataframe containing the composite breakdown scores (i.e., composite prejudice, discrimination, and stereotype scores) and a second with the overall bias scores. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r install}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r create df}
+composite_breakdown <- tribble(
+  ~condition, ~composite, ~partyid, ~N, ~M, ~SD,
+  0, "composite_prejudice_preD", 1, 22, 71.46, 15.32,
+  0, "composite_prejudice_preD", 2, 19, 34.43, 14.04,
+  0, "composite_prejudice_postD", 1, 22, 74.15, 12.84,
+  0, "composite_prejudice_postD", 2, 19, 41.12, 15.23,
+  0, "composite_prejudice_preR", 1, 22, 16.09, 11.07,
+  0, "composite_prejudice_preR", 2, 19, 65.78, 9.87,
+  0, "composite_prejudice_postR", 1, 22, 22.82, 13.42,
+  0, "composite_prejudice_postR", 2, 19, 66.36, 9.94,
+  0, "composite_stereotype_preD", 1, 22, 74.94, 13.82,
+  0, "composite_stereotype_preD", 2, 19, 45.39, 11.01,
+  0, "composite_stereotype_postD", 1, 22, 75.57, 12.25,
+  0, "composite_stereotype_postD", 2, 19, 48.36, 10.68,
+  0, "composite_stereotype_preR", 1, 22, 42.90, 13.03,
+  0, "composite_stereotype_preR", 2, 19, 60.53, 8.08,
+  0, "composite_stereotype_postR", 1, 22, 46.31, 11.66,
+  0, "composite_stereotype_postR", 2, 19, 60.20, 10.27,
+  0, "composite_discrimination_preD", 1, 22, 77.27, 18.75,
+  0, "composite_discrimination_preD", 2, 19, 50.00, 8.33,
+  0, "composite_discrimination_postD", 1, 22, 73.86, 22.46,
+  0, "composite_discrimination_postD", 2, 19, 50.00, 8.33,
+  0, "composite_discrimination_preR", 1, 22, 35.22, 16.65,
+  0, "composite_discrimination_preR", 2, 19, 63.16, 17.41,
+  0, "composite_discrimination_postR", 1, 22, 38.64, 18.46,
+  0, "composite_discrimination_postR", 2, 19, 61.84, 17.41,
+  1, "composite_prejudice_preD", 1, 21, 71.25, 11.16,
+  1, "composite_prejudice_preD", 2, 17, 33.86, 16.76,
+  1, "composite_prejudice_postD", 1, 21, 77.90, 8.28,
+  1, "composite_prejudice_postD", 2, 17, 36.97, 16.90,
+  1, "composite_prejudice_preR", 1, 21, 23.26, 17.15,
+  1, "composite_prejudice_preR", 2, 17, 63.10, 15.74,
+  1, "composite_prejudice_postR", 1, 21, 21.69, 13.38,
+  1, "composite_prejudice_postR", 2, 17, 60.19, 13.67,
+  1, "composite_stereotype_preD", 1, 21, 72.22, 9.42,
+  1, "composite_stereotype_preD", 2, 17, 50.86, 10.34,
+  1, "composite_stereotype_postD", 1, 21, 74.37, 10.16,
+  1, "composite_stereotype_postD", 2, 17, 51.72, 11.39,
+  1, "composite_stereotype_preR", 1, 21, 42.56, 11.42,
+  1, "composite_stereotype_preR", 2, 17, 63.11, 8.16,
+  1, "composite_stereotype_postR", 1, 21, 42.86, 12.54,
+  1, "composite_stereotype_postR", 2, 17, 63.73, 10.39,
+  1, "composite_discrimination_preD", 1, 21, 77.38, 20.77,
+  1, "composite_discrimination_preD", 2, 17, 50.00, .00,
+  1, "composite_discrimination_postD", 1, 21, 80.95, 19.21,
+  1, "composite_discrimination_postD", 2, 17, 48.53, 6.06,
+  1, "composite_discrimination_preR", 1, 21, 33.33, 21.41,
+  1, "composite_discrimination_preR", 2, 17, 63.24, 19.99,
+  1, "composite_discrimination_postR", 1, 21, 28.57, 24.09,
+  1, "composite_discrimination_postR", 2, 17, 64.71, 21.76
+)
+
+composite_bias <- tribble(
+  ~condition, ~composite, ~partyid, ~N, ~M, ~SD,
+  0, "composite_bias_preD", 1, 22, 74.56, 12.30,
+  0, "composite_bias_postD", 1, 22, 74.53, 10.76,
+  0, "composite_bias_preR", 1, 22, 31.40, 10.33,
+  0, "composite_bias_postR", 1, 22, 35.92, 10.83,
+  0, "composite_bias_preD", 2, 19, 43.27, 8.28,
+  0, "composite_bias_postD", 2, 19, 46.49, 8.64,
+  0, "composite_bias_preR", 2, 19, 63.15, 9.64,
+  0, "composite_bias_postR", 2, 19, 62.80, 9.41,
+  1, "composite_bias_preD", 1, 21, 73.62, 10.42,
+  1, "composite_bias_postD", 1, 21, 77.74, 8.01,
+  1, "composite_bias_preR", 1, 21, 33.05, 13.61,
+  1, "composite_bias_postR", 1, 21, 31.04, 14.75,
+  1, "composite_bias_preD", 2, 17, 44.91, 8.06,
+  1, "composite_bias_postD", 2, 17, 45.74, 8.93,
+  1, "composite_bias_preR", 2, 17, 63.15, 11.39,
+  1, "composite_bias_postR", 2, 17, 62.87, 12.33
+)
+
+write_csv(composite_breakdown, "composite_breakdown.csv")
+write_csv(composite_bias, "composite_bias.csv")
+```
+
+With the CSV files created, I want to rename a few variables to make plotting the data a bit easier. 
+
+```{r rename}
+composite_bias$condition <- factor(composite_bias$condition, labels = c("deliberation", "control"))
+head(composite_bias)
+composite_bias$partyid <- factor(composite_bias$partyid, labels = c("Democrat", "Republican"))
+head(composite_bias)
+composite_bias
+
+composite_breakdown$condition <- factor(composite_breakdown$condition, labels = c("deliberation", "control"))
+head(composite_breakdown)
+composite_breakdown$partyid <- factor(composite_breakdown$partyid, labels = c("Democrat", "Republican"))
+head(composite_breakdown)
+```
+
+
+For this piece, I'm going to stop here with the CSV files created. For the next portfolio pieces, I'm going to run some analyses and develop some plots.
